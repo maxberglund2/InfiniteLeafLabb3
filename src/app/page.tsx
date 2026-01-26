@@ -4,8 +4,9 @@
 import React, { useEffect, useState } from "react";
 import { MenuItemDto } from "@/types/api.types";
 import { menuService } from "@/services/menu.service";
-import { MenuItemCard } from "./components/home/MenuItemCard";
-import Link from "next/link";
+import { MenuItemCard } from "@/components/home/MenuItemCard";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
   const [popularItems, setPopularItems] = useState<MenuItemDto[]>([]);
@@ -29,61 +30,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#18230F]">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-[#27391C]/95 backdrop-blur-md z-50 border-b border-[#255F38]/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-3">
-              <div className="text-4xl">🍃</div>
-              <div>
-                <h1 className="text-2xl font-bold text-white">Infinite Leaf</h1>
-                <p className="text-xs text-gray-400">Asian Tea & Cuisine</p>
-              </div>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#menu"
-                className="text-gray-300 hover:text-[#1F7D53] transition-colors"
-              >
-                Menu
-              </a>
-              <a
-                href="#about"
-                className="text-gray-300 hover:text-[#1F7D53] transition-colors"
-              >
-                About
-              </a>
-              <a
-                href="#reservations"
-                className="text-gray-300 hover:text-[#1F7D53] transition-colors"
-              >
-                Reservations
-              </a>
-              <Link
-                href="/auth"
-                className="bg-[#1F7D53] hover:bg-[#255F38] text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105"
-              >
-                Admin
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen ">
+      {/* Navigation - Now always uses StaggeredMenu */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">
         {/* Background Decorative Elements */}
-        <div className="absolute top-20 right-10 text-[#255F38] text-9xl opacity-10 animate-float">
-          🌿
-        </div>
-        <div
-          className="absolute bottom-20 left-10 text-[#255F38] text-7xl opacity-10 animate-float"
-          style={{ animationDelay: "1s" }}
-        >
-          🍵
-        </div>
+
 
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fadeIn">
@@ -158,7 +112,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-4 bg-[#27391C]/30">
+      <section id="about" className="py-20 px-4 bg-[#27391C]/80">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -180,7 +134,7 @@ export default function Home() {
                   <div className="text-gray-400 text-sm">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-[#1F7D53]">100+</div>
+                  <div className="text-4xl font-bold text-[1F7D53]">100+</div>
                   <div className="text-gray-400 text-sm">Menu Items</div>
                 </div>
                 <div className="text-center">
@@ -197,40 +151,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-[#27391C] py-12 px-4 border-t border-[#255F38]/30">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="text-4xl mb-4">🍃</div>
-          <h4 className="text-2xl font-bold text-white mb-2">Infinite Leaf</h4>
-          <p className="text-gray-400 mb-6">
-            Experience the infinite flavors of Asia
-          </p>
-          <div className="flex justify-center gap-8 mb-6">
-            <a
-              href="#"
-              className="text-gray-400 hover:text-[#1F7D53] transition-colors"
-            >
-              Facebook
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-[#1F7D53] transition-colors"
-            >
-              Instagram
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-[#1F7D53] transition-colors"
-            >
-              Twitter
-            </a>
-          </div>
-          <p className="text-gray-500 text-sm">
-            © 2024 Infinite Leaf. All rights reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
