@@ -8,9 +8,9 @@ const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
   { label: "Menu", ariaLabel: "View our menu", link: "#menu" },
   {
-    label: "Reservations",
+    label: "Table",
     ariaLabel: "Make a reservation",
-    link: "#reservations",
+    link: "#table",
   },
   { label: "Admin", ariaLabel: "Admin portal", link: "/auth" },
 ];
@@ -25,15 +25,14 @@ export const Navbar: React.FC = () => {
   return (
     <div className="fixed top-0 w-full z-50">
       <StaggeredMenu
-        position="right"
         items={menuItems}
         socialItems={socialItems}
         displaySocials
         displayItemNumbering={false}
         menuButtonColor="#D4D4D4"
-        openMenuButtonColor="#D4D4D4"
+        openMenuButtonColor="#ffffff"
         changeMenuColorOnOpen={true}
-        colors={["#255F38", "#1F7D53"]}
+        colors={["#18230F", "#27391C", "#255F38",]}
         logoUrl="/logo.svg"
         accentColor="#1F7D53"
         isFixed={true}

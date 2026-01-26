@@ -183,3 +183,7 @@ html {
 .sm-scope .staggered-menu-panel {
   pointer-events: auto;
 }
+
+.bbSw {
+  text-align: center;
+}
