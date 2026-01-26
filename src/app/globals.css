@@ -105,3 +105,12 @@ html {
 .animate-slideIn {
   animation: slideIn 0.8s ease-out forwards;
 }
+
+.sm-scope {
+  pointer-events: none;
+}
+
+.sm-scope .staggered-menu-header,
+.sm-scope .staggered-menu-panel {
+  pointer-events: auto;
+}
