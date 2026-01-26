@@ -1,4 +1,3 @@
-// src/components/layout/Navbar.tsx
 "use client";
 
 import React from "react";
@@ -8,7 +7,6 @@ import StaggeredMenu from "@/components/ui/StaggeredMenu";
 const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
   { label: "Menu", ariaLabel: "View our menu", link: "#menu" },
-  { label: "About", ariaLabel: "Learn about us", link: "#about" },
   {
     label: "Reservations",
     ariaLabel: "Make a reservation",
@@ -32,8 +30,8 @@ export const Navbar: React.FC = () => {
         socialItems={socialItems}
         displaySocials
         displayItemNumbering={false}
-        menuButtonColor="#F5F5F0"
-        openMenuButtonColor="#F5F5F0"
+        menuButtonColor="#D4D4D4"
+        openMenuButtonColor="#D4D4D4"
         changeMenuColorOnOpen={true}
         colors={["#255F38", "#1F7D53"]}
         logoUrl="/logo.svg"

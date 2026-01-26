@@ -31,6 +31,75 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Color utility classes */
+.bg-dark-forest {
+  background-color: #18230F;
+}
+
+.bg-moss {
+  background-color: #27391C;
+}
+
+.bg-jade {
+  background-color: #255F38;
+}
+
+.bg-emerald {
+  background-color: #1F7D53;
+}
+
+.text-dark-forest {
+  color: #18230F;
+}
+
+.text-moss {
+  color: #27391C;
+}
+
+.text-jade {
+  color: #255F38;
+}
+
+.text-emerald {
+  color: #1F7D53;
+}
+
+.border-dark-forest {
+  border-color: #18230F;
+}
+
+.border-moss {
+  border-color: #27391C;
+}
+
+.border-jade {
+  border-color: #255F38;
+}
+
+.border-emerald {
+  border-color: #1F7D53;
+}
+
+.from-jade {
+  --tw-gradient-from: #255F38;
+}
+
+.to-emerald {
+  --tw-gradient-to: #1F7D53;
+}
+
+.from-emerald {
+  --tw-gradient-from: #1F7D53;
+}
+
+.to-jade {
+  --tw-gradient-to: #255F38;
+}
+
+.via-jade {
+  --tw-gradient-via: #255F38;
+}
+
 body {
   background: transparent;
   color: var(--foreground);

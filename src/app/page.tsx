@@ -1,12 +1,9 @@
-// src/app/page.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { MenuItemDto } from "@/types/api.types";
 import { menuService } from "@/services/menu.service";
 import { MenuItemCard } from "@/components/home/MenuItemCard";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
   const [popularItems, setPopularItems] = useState<MenuItemDto[]>([]);
@@ -30,19 +27,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen ">
-      {/* Navigation - Now always uses StaggeredMenu */}
-      <Navbar />
-
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        {/* Background Decorative Elements */}
-
-
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fadeIn">
             Welcome to
-            <span className="block text-[#1F7D53] mt-2">Infinite Leaf</span>
+            <span className="block text-emerald mt-2">Infinite Leaf</span>
           </h2>
 
           <p
@@ -57,10 +48,10 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeIn"
             style={{ animationDelay: "400ms" }}
           >
-            <button className="bg-[#1F7D53] hover:bg-[#255F38] text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <button className="bg-emerald hover:bg-jade text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
               Reserve a Table
             </button>
-            <button className="border-2 border-[#1F7D53] text-white hover:bg-[#1F7D53] px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+            <button className="border-2 border-emerald text-white hover:bg-emerald px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
               View Full Menu
             </button>
           </div>
@@ -69,7 +60,7 @@ export default function Home() {
 
       {/* Divider */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#255F38] to-transparent"></div>
+        <div className="h-px bg-linear-to-r from-transparent via-jade to-transparent"></div>
       </div>
 
       {/* Popular Items Section */}
@@ -85,9 +76,9 @@ export default function Home() {
           </div>
 
           {isLoading ? (
-            <div className="flex justify-center items-center min-h-[400px]">
+            <div className="flex justify-center items-center min-h-100">
               <div className="relative">
-                <div className="w-16 h-16 border-4 border-[#255F38] border-t-[#1F7D53] rounded-full animate-spin"></div>
+                <div className="w-16 h-16 border-4 border-jade border-t-emerald rounded-full animate-spin"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-2xl">🍃</span>
                 </div>
@@ -111,8 +102,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="h-px bg-linear-to-r from-transparent via-jade to-transparent"></div>
+      </div>
+
       {/* About Section */}
-      <section id="about" className="py-20 px-4 bg-[#27391C]/80">
+      <section id="about" className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -130,21 +126,21 @@ export default function Home() {
               </p>
               <div className="flex gap-4 pt-4">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-[#1F7D53]">15+</div>
+                  <div className="text-4xl font-bold text-emerald">15+</div>
                   <div className="text-gray-400 text-sm">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-[1F7D53]">100+</div>
+                  <div className="text-4xl font-bold text-emerald">100+</div>
                   <div className="text-gray-400 text-sm">Menu Items</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-[#1F7D53]">5K+</div>
+                  <div className="text-4xl font-bold text-emerald">5K+</div>
                   <div className="text-gray-400 text-sm">Happy Customers</div>
                 </div>
               </div>
             </div>
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="w-full h-full bg-gradient-to-br from-[#255F38] to-[#1F7D53] flex items-center justify-center">
+              <div className="w-full h-full bg-linear-to-br from-jade to-emerald flex items-center justify-center">
                 <span className="text-9xl opacity-50">🏮</span>
               </div>
             </div>
