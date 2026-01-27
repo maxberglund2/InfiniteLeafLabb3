@@ -231,3 +231,28 @@ html {
 .sm-scope .staggered-menu-panel {
   pointer-events: auto;
 }
+
+/* globals.css */
+@layer utilities {
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+    /* For Firefox */
+  }
+}
+
+.customInput::-webkit-outer-spin-button,
+.customInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.customInput {
+  -moz-appearance: textfield;
+}
