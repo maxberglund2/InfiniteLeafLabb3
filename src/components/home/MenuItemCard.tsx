@@ -50,7 +50,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, index }) => {
             {item.name}
           </h3>
           <span className="text-emerald text-xl font-bold whitespace-nowrap">
-            ${item.price.toFixed(2)}
+            ¥{item.price.toFixed(2)}
           </span>
         </div>
 
