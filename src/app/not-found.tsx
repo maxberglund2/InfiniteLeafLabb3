@@ -53,7 +53,7 @@ export default function NotFound() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/">
-            <button className="px-8 py-4 bg-gradient-to-r from-jade to-emerald hover:from-emerald hover:to-jade text-white font-bold text-sm tracking-wider transition-all duration-300 transform hover:scale-105 rounded-lg shadow-lg">
+            <button className="px-8 py-4 bg-linear-to-r from-jade to-emerald hover:from-emerald hover:to-jade text-white font-bold text-sm tracking-wider transition-all duration-300 transform hover:scale-105 rounded-lg shadow-lg">
               RETURN HOME
             </button>
           </Link>

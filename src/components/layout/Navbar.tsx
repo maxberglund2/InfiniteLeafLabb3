@@ -77,27 +77,24 @@ export const Navbar: React.FC = () => {
   }, [menuOpen, handleMenuClose, handleMenuOpen]);
 
   // Configuration for the Menu Button styles
-  const menuButtonColor = "#D4D4D4"; // Light gray for closed state
-  const openMenuButtonColor = "#ffffff"; // White when open
+  const menuButtonColor = "#D4D4D4";
+  const openMenuButtonColor = "#ffffff";
 
   return (
     <>
-      {/* The Unified Fixed Header */}
-      <header className="fixed top-0 left-0 w-full p-6 z-[60] flex items-center justify-between pointer-events-none">
-        {/* 1. Logo/Branding on the left */}
+      <header className="fixed top-0 left-0 w-full p-6 z-60 flex items-center justify-between pointer-events-none">
         <Link
           className="flex items-center select-none pointer-events-auto hover:scale-105 transition-transform"
           href="/"
         >
           <div className="flex items-center gap-3">
-            <div className="text-4xl">🍃</div>
+            <div className="text-4xl animate-logo-spin-smooth">🍃</div>
             <div className="text-white font-bold text-xl tracking-wide">
               Infinite Leaf
             </div>
           </div>
         </Link>
 
-        {/* 2. Menu Toggle Button on the right */}
         <div className="flex items-center gap-4 pointer-events-auto">
           <button
             className="sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible transition-colors duration-300"
@@ -127,7 +124,6 @@ export const Navbar: React.FC = () => {
         </div>
       </header>
 
-      {/* The Controlled Menu Panel */}
       <StaggeredMenu
         isFixed={true}
         items={menuItems}
@@ -137,7 +133,6 @@ export const Navbar: React.FC = () => {
         accentColor="#1F7D53"
         colors={["#18230F", "#27391C", "#255F38"]}
         className="top-0 z-50 w-full h-screen"
-        // CONTROL PROPS
         open={menuOpen}
         onToggle={toggleMenu}
         onMenuOpen={toggleBlurOverlay.bind(null, true)}

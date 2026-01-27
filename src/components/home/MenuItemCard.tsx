@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { MenuItemDto } from "@/types/api.types";
+import { getRandomFallbackImage } from "@/lib/utils";
 
 interface MenuItemCardProps {
   item: MenuItemDto;
@@ -12,7 +13,9 @@ interface MenuItemCardProps {
 export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, index }) => {
   const [imageError, setImageError] = useState(false);
   const imageSrc =
-    imageError || !item.imageUrl ? "/fallback.jpg" : item.imageUrl;
+    imageError || !item.imageUrl
+      ? getRandomFallbackImage(index)
+      : item.imageUrl;
 
   return (
     <div
@@ -22,7 +25,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, index }) => {
       }}
     >
       {/* Image Section */}
-      <div className="relative aspect-[4/3] bg-dark-forest overflow-hidden">
+      <div className="relative aspect-4/3 bg-dark-forest overflow-hidden">
         <Image
           src={imageSrc}
           alt={item.name}

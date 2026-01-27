@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { MenuItemDto } from "@/types/api.types";
 import { menuService } from "@/services/menu.service";
 import { MenuItemCard } from "@/components/home/MenuItemCard";
+import AnimatedContent from "@/components/ui/AnimatedContent";
 
 export default function Home() {
   const [popularItems, setPopularItems] = useState<MenuItemDto[]>([]);
@@ -26,6 +27,12 @@ export default function Home() {
     fetchPopularItems();
   }, []);
 
+  const stats = [
+    { label: "YEARS EXPERIENCE", value: "15+" },
+    { label: "MENU ITEMS", value: "100+" },
+    { label: "HAPPY CUSTOMERS", value: "5K+" },
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -40,8 +47,9 @@ export default function Home() {
             className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms" }}
           >
-            Experience the harmony of traditional Asian flavors and modern
-            culinary artistry
+            Experience the harmony of traditional Asian tea culture and modern
+            tea artistry. Savor rare leaves, classic brews, and innovative
+            infusions in a tranquil setting.
           </p>
 
           <div
@@ -52,7 +60,7 @@ export default function Home() {
               Reserve a Table
             </button>
             <button className="border-2 border-emerald text-white hover:bg-emerald px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
-              View Full Menu
+              View Tea Menu
             </button>
           </div>
         </div>
@@ -67,11 +75,10 @@ export default function Home() {
       <section id="menu" className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h3 className="text-5xl font-bold text-white mb-4">
-              Popular Selections
-            </h3>
+            <h3 className="text-5xl font-bold text-white mb-4">Popular Teas</h3>
             <p className="text-gray-400 text-lg">
-              Discover our most beloved dishes, crafted with care and tradition
+              Discover our most beloved teas, curated from the finest Asian
+              leaves and crafted with care and tradition.
             </p>
           </div>
 
@@ -102,48 +109,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="h-px bg-linear-to-r from-transparent via-jade to-transparent"></div>
-      </div>
-
       {/* About Section */}
-      <section id="about" className="py-20 px-4">
+      <section id="about" className="py-20 px-6 bg-dark-forest/80">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h3 className="text-5xl font-bold text-white">Our Story</h3>
               <p className="text-gray-300 text-lg leading-relaxed">
-                Infinite Leaf brings together centuries of Asian culinary
-                tradition with contemporary dining excellence. Each dish is a
-                journey through the flavors of China and Japan, prepared with
-                authentic techniques and the finest ingredients.
+                Infinite Leaf brings together centuries of Asian tea tradition
+                with a contemporary twist. Each cup is a journey through the tea
+                cultures of China, Japan, and beyond, prepared with authentic
+                techniques and the finest leaves.
               </p>
               <p className="text-gray-300 text-lg leading-relaxed">
-                From our tranquil tea ceremonies to our modern fusion cuisine,
-                we invite you to experience a harmonious blend of past and
-                present.
+                From tranquil tea ceremonies to creative modern infusions, we
+                invite you to experience a harmonious blend of past and
+                present—one sip at a time.
               </p>
-              <div className="flex gap-4 pt-4">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-emerald">15+</div>
-                  <div className="text-gray-400 text-sm">Years Experience</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-emerald">100+</div>
-                  <div className="text-gray-400 text-sm">Menu Items</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-emerald">5K+</div>
-                  <div className="text-gray-400 text-sm">Happy Customers</div>
-                </div>
-              </div>
             </div>
-            <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="w-full h-full bg-linear-to-br from-jade to-emerald flex items-center justify-center">
-                <span className="text-9xl opacity-50">🏮</span>
+            <AnimatedContent
+              distance={50}
+              direction="horizontal"
+              reverse={true}
+            >
+              <div className="relative h-100 w-full border-2 border-emerald p-2 rotate-2 hover:rotate-0 transition-transform duration-500">
+                <div className="absolute inset-0 bg-moss flex items-center justify-center">
+                  <span className="text-9xl filter grayscale contrast-150">
+                    🍵
+                  </span>
+                </div>
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-emerald -z-10"></div>
               </div>
-            </div>
+            </AnimatedContent>
+          </div>
+        </div>
+      </section>
+      {/* Community Stats Section */}
+      <section className="px-6 py-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              More Than Just Tea
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              We're a community of tea lovers, explorers, and friends who
+              celebrate the art and culture of Asian tea. When you share a cup
+              at Infinite Leaf, you're part of something special.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {stats.map((stat, idx) => (
+              <AnimatedContent key={idx} delay={idx * 0.1} distance={20}>
+                <div className="p-8 border border-jade bg-moss hover:bg-jade transition-colors duration-300 flex flex-col items-center justify-center text-center h-full group">
+                  <div className="text-4xl md:text-5xl font-bold text-white mb-2 group-hover:text-emerald transition-colors">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs md:text-sm font-bold tracking-widest text-gray-500 uppercase">
+                    {stat.label}
+                  </div>
+                </div>
+              </AnimatedContent>
+            ))}
           </div>
         </div>
       </section>

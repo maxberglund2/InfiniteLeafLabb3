@@ -30,7 +30,7 @@ export default function RootLayout({
         {/* Background with Iridescence */}
         <div className="fixed inset-0 -z-10 pointer-events-none">
           <Iridescence
-            color={[0.07, 0.3, 0.15]}
+            color={[0.03, 0.15, 0.08]}
             mouseReact
             amplitude={0.1}
             speed={0.2}

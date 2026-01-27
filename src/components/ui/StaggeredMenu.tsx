@@ -377,7 +377,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           className="staggered-menu-panel absolute top-0 right-0 h-full flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 pointer-events-auto"
           style={{
             backgroundColor: "#1a1a1a",
-            borderLeft: "2px solid #362222",
+            borderLeft: "2px solid #27391C",
             WebkitBackdropFilter: "blur(12px)",
             backdropFilter: "blur(12px)",
           }}
@@ -497,8 +497,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   flex-direction: column; 
   padding: 6em 2em 2em 2em; 
   overflow-y: auto; 
-  z-index: 10; 
-  border-left: 2px solid #362222;
+  z-index: 10;
 }
 
 .sm-scope .sm-panel-item { 
