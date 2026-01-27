@@ -10,6 +10,7 @@ import { ConfirmReservation } from "@/components/table/ConfirmReservation";
 import { ReservationSuccess } from "@/components/table/ReservationSuccess";
 import { reservationService } from "@/services/reservation.service";
 import { customerService } from "@/services/customer.service";
+import { toast } from "react-toastify";
 
 const STEPS = [
   { number: 1, title: "Date & Time" },
@@ -22,7 +23,6 @@ const STEPS = [
 export default function ReservationsPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   const [reservationData, setReservationData] = useState<{
     dateTime?: Date;
@@ -62,7 +62,8 @@ export default function ReservationsPage() {
 
   const handleConfirmReservation = async () => {
     setIsSubmitting(true);
-    setError("");
+
+    const loadingToast = toast.loading("Creating your reservation...");
 
     try {
       // First, create or find the customer
@@ -90,9 +91,22 @@ export default function ReservationsPage() {
       }
 
       // Success! Move to success step
+      toast.update(loadingToast, {
+        render: "Reservation confirmed! 🎉",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       setCurrentStep(6);
     } catch (err: any) {
-      setError(err.message || "An error occurred. Please try again.");
+      const errorMessage =
+        err.message || "An error occurred. Please try again.";
+      toast.update(loadingToast, {
+        render: errorMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
       console.error("Reservation error:", err);
     } finally {
       setIsSubmitting(false);
@@ -102,7 +116,6 @@ export default function ReservationsPage() {
   const handleNewReservation = () => {
     setReservationData({});
     setCurrentStep(1);
-    setError("");
   };
 
   return (
@@ -110,12 +123,6 @@ export default function ReservationsPage() {
       <div className="max-w-5xl mx-auto">
         {currentStep < 6 && (
           <ProgressSteps currentStep={currentStep} steps={STEPS} />
-        )}
-
-        {error && (
-          <div className="bg-red-900/30 border border-red-700/50 text-red-300 px-6 py-4 rounded-lg mb-6 max-w-2xl mx-auto">
-            <p className="font-medium">{error}</p>
-          </div>
         )}
 
         <div className="bg-moss/40 border border-jade/30 rounded-2xl p-8 backdrop-blur-md">

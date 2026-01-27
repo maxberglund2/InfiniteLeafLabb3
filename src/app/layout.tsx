@@ -6,6 +6,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/layout/Navbar";
 import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import Iridescence from "@/components/ui/Iridescence";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +49,22 @@ export default function RootLayout({
             pointerEvents: "none",
             backgroundColor: "rgba(0, 0, 0, 0.3)",
           }}
+        />
+
+        {/* Toast Container */}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          toastClassName=""
+          progressClassName="!bg-emerald"
         />
 
         {/* App */}

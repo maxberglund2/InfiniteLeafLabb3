@@ -3,28 +3,46 @@
 import React, { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SignInPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
+
+    const loadingToast = toast.loading("Signing in...");
 
     try {
       const result = await login(username, password);
 
       if (!result.success) {
-        setError(result.error || "Login failed");
+        toast.update(loadingToast, {
+          render: result.error || "Login failed",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      } else {
+        toast.update(loadingToast, {
+          render: "Successfully signed in! Redirecting...",
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      toast.update(loadingToast, {
+        render: "An unexpected error occurred",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -41,12 +59,6 @@ export default function SignInPage() {
         </div>
 
         <div className="space-y-6">
-          {error && (
-            <div className="bg-red-900/30 border border-red-700/50 text-red-300 px-4 py-3 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
-
           <div>
             <label
               htmlFor="username"
