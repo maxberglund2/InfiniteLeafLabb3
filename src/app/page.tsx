@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { MenuItemDto } from "@/types/api.types";
 import { menuService } from "@/services/menu.service";
-import { MenuItemCard } from "@/components/home/MenuItemCard";
+import { MenuItemCard } from "@/components/shared/MenuItemCard";
 import AnimatedContent from "@/components/ui/AnimatedContent";
 
 export default function Home() {
@@ -56,12 +57,16 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeIn"
             style={{ animationDelay: "400ms" }}
           >
-            <button className="bg-emerald hover:bg-jade text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <Link
+              href="/table"
+              className="bg-emerald hover:bg-jade text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
               Reserve a Table
-            </button>
-            <button className="border-2 border-emerald text-white hover:bg-emerald px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+            </Link>
+
+            <Link href="/menu" className="border-2 box-border border-emerald text-white hover:bg-emerald px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
               View Tea Menu
-            </button>
+            </Link>
           </div>
         </div>
       </section>

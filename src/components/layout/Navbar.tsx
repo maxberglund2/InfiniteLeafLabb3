@@ -6,8 +6,8 @@ import StaggeredMenu from "@/components/ui/StaggeredMenu";
 
 const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
-  { label: "Menu", ariaLabel: "View our menu", link: "#menu" },
-  { label: "Table", ariaLabel: "Make a reservation", link: "#table" },
+  { label: "Menu", ariaLabel: "View our menu", link: "/menu" },
+  { label: "Table", ariaLabel: "Make a reservation", link: "/table" },
   { label: "Admin", ariaLabel: "Admin portal", link: "/auth" },
 ];
 

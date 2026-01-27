@@ -6,7 +6,7 @@ interface LoadingProps {
 
 export const Loading: React.FC<LoadingProps> = ({ message = "Loading..." }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+    <div className="flex flex-col items-center justify-center min-h-100 gap-4">
       <div className="relative">
         <div className="w-16 h-16 border-4 border-jade border-t-emerald rounded-full animate-spin"></div>
         <div className="absolute inset-0 flex items-center justify-center">
