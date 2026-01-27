@@ -119,7 +119,7 @@ export default function ReservationsPage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen py-15 px-5">
       <div className="max-w-5xl mx-auto">
         {currentStep < 6 && (
           <ProgressSteps
