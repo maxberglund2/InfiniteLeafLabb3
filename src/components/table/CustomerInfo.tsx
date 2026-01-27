@@ -9,16 +9,22 @@ interface CustomerData {
 }
 
 interface CustomerInfoProps {
+  // Add these optional props to receive saved data
+  initialName?: string;
+  initialPhone?: string;
   onNext: (customerData: CustomerData) => void;
   onBack: () => void;
 }
 
 export const CustomerInfo: React.FC<CustomerInfoProps> = ({
+  initialName = "", // Default to empty string
+  initialPhone = "",
   onNext,
   onBack,
 }) => {
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // Initialize state with the props passed from the parent
+  const [name, setName] = useState(initialName);
+  const [phoneNumber, setPhoneNumber] = useState(initialPhone);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,7 +91,12 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
       </div>
 
       <div className="flex gap-4 pt-6 max-w-md mx-auto">
-        <Button variant="secondary" onClick={onBack} className="flex-1">
+        <Button
+          variant="secondary"
+          onClick={onBack}
+          className="flex-1"
+          type="button"
+        >
           Back
         </Button>
         <Button

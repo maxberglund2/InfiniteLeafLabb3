@@ -5,19 +5,23 @@ import { Button } from "../shared/Button";
 import { Users, Minus, Plus } from "lucide-react";
 
 interface SelectGuestsProps {
+  initialValue?: number;
   onNext: (numberOfGuests: number) => void;
   onBack: () => void;
 }
 
 export const SelectGuests: React.FC<SelectGuestsProps> = ({
+  initialValue,
   onNext,
   onBack,
 }) => {
-  const MAX_GUESTS = 8;
+  const MAX_GUESTS = 20;
   const MIN_GUESTS = 1;
 
-  const [guests, setGuests] = useState<number>(2);
-  const [inputValue, setInputValue] = useState<string>("2");
+  const [guests, setGuests] = useState<number>(initialValue || 2);
+  const [inputValue, setInputValue] = useState<string>(
+    (initialValue || 2).toString(),
+  );
 
   useEffect(() => {
     setInputValue(guests.toString());
@@ -30,12 +34,10 @@ export const SelectGuests: React.FC<SelectGuestsProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-
     if (val === "") {
       setInputValue("");
       return;
     }
-
     if (/^\d+$/.test(val)) {
       setInputValue(val);
       const num = parseInt(val);
@@ -75,7 +77,7 @@ export const SelectGuests: React.FC<SelectGuestsProps> = ({
           </button>
 
           <div className="relative flex flex-col items-center">
-            <div className="bg-black/40 px-8 py-6 rounded-[2.5rem] border-2 border-jade/30 shadow-[0_0_40px_rgba(0,168,107,0.15)] flex flex-col items-center min-w-[150px]">
+            <div className="bg-black/40 px-8 py-6 rounded-[2.5rem] border-2 border-jade/30 shadow-[0_0_40px_rgba(0,168,107,0.15)] flex flex-col items-center min-w-37.5">
               <input
                 type="text"
                 inputMode="numeric"

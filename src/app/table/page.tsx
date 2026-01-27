@@ -33,6 +33,13 @@ export default function ReservationsPage() {
     customerPhone?: string;
   }>({});
 
+  const handleStepNavigation = (stepNumber: number) => {
+    // Only allow navigating if we aren't in the middle of a submission
+    if (!isSubmitting) {
+      setCurrentStep(stepNumber);
+    }
+  };
+
   const handleDateSelect = (date: Date, time: string) => {
     setReservationData({ ...reservationData, dateTime: date, time });
     setCurrentStep(2);
@@ -62,11 +69,9 @@ export default function ReservationsPage() {
 
   const handleConfirmReservation = async () => {
     setIsSubmitting(true);
-
     const loadingToast = toast.loading("Creating your reservation...");
 
     try {
-      // First, create or find the customer
       const customerResponse = await customerService.create({
         name: reservationData.customerName!,
         phoneNumber: reservationData.customerPhone!,
@@ -76,7 +81,6 @@ export default function ReservationsPage() {
         throw new Error(customerResponse.error || "Failed to create customer");
       }
 
-      // Then create the reservation
       const reservationResponse = await reservationService.create({
         startTime: reservationData.dateTime!.toISOString(),
         numberOfGuests: reservationData.numberOfGuests!,
@@ -90,7 +94,6 @@ export default function ReservationsPage() {
         );
       }
 
-      // Success! Move to success step
       toast.update(loadingToast, {
         render: "Reservation confirmed! 🎉",
         type: "success",
@@ -99,15 +102,12 @@ export default function ReservationsPage() {
       });
       setCurrentStep(6);
     } catch (err: any) {
-      const errorMessage =
-        err.message || "An error occurred. Please try again.";
       toast.update(loadingToast, {
-        render: errorMessage,
+        render: err.message || "An error occurred. Please try again.",
         type: "error",
         isLoading: false,
         autoClose: 5000,
       });
-      console.error("Reservation error:", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -122,14 +122,25 @@ export default function ReservationsPage() {
     <div className="min-h-screen pt-24 pb-16 px-4">
       <div className="max-w-5xl mx-auto">
         {currentStep < 6 && (
-          <ProgressSteps currentStep={currentStep} steps={STEPS} />
+          <ProgressSteps
+            currentStep={currentStep}
+            steps={STEPS}
+            onStepClick={handleStepNavigation}
+          />
         )}
 
-        <div className="bg-moss/40 border border-jade/30 rounded-2xl p-8 backdrop-blur-md">
-          {currentStep === 1 && <SelectDate onNext={handleDateSelect} />}
+        <div className="bg-moss/15 border border-jade/30 rounded-2xl p-8 backdrop-blur-md">
+          {currentStep === 1 && (
+            <SelectDate
+              initialDate={reservationData.dateTime}
+              initialTime={reservationData.time}
+              onNext={handleDateSelect}
+            />
+          )}
 
           {currentStep === 2 && (
             <SelectGuests
+              initialValue={reservationData.numberOfGuests}
               onNext={handleGuestsSelect}
               onBack={() => setCurrentStep(1)}
             />
@@ -141,6 +152,7 @@ export default function ReservationsPage() {
               <SelectTable
                 dateTime={reservationData.dateTime}
                 numberOfGuests={reservationData.numberOfGuests}
+                initialTableId={reservationData.tableId}
                 onNext={handleTableSelect}
                 onBack={() => setCurrentStep(2)}
               />
@@ -148,6 +160,8 @@ export default function ReservationsPage() {
 
           {currentStep === 4 && (
             <CustomerInfo
+              initialName={reservationData.customerName}
+              initialPhone={reservationData.customerPhone}
               onNext={handleCustomerInfo}
               onBack={() => setCurrentStep(3)}
             />
@@ -161,14 +175,7 @@ export default function ReservationsPage() {
             reservationData.customerName &&
             reservationData.customerPhone && (
               <ConfirmReservation
-                reservationData={{
-                  dateTime: reservationData.dateTime,
-                  time: reservationData.time,
-                  numberOfGuests: reservationData.numberOfGuests,
-                  tableId: reservationData.tableId,
-                  customerName: reservationData.customerName,
-                  customerPhone: reservationData.customerPhone,
-                }}
+                reservationData={reservationData as any}
                 onConfirm={handleConfirmReservation}
                 onBack={() => setCurrentStep(4)}
                 isSubmitting={isSubmitting}
@@ -181,12 +188,7 @@ export default function ReservationsPage() {
             reservationData.numberOfGuests &&
             reservationData.customerName && (
               <ReservationSuccess
-                reservationData={{
-                  dateTime: reservationData.dateTime,
-                  time: reservationData.time,
-                  numberOfGuests: reservationData.numberOfGuests,
-                  customerName: reservationData.customerName,
-                }}
+                reservationData={reservationData as any}
                 onNewReservation={handleNewReservation}
               />
             )}

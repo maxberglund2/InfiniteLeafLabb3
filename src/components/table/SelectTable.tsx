@@ -9,6 +9,7 @@ import { AvailableTableDto } from "@/types/api.types";
 interface SelectTableProps {
   dateTime: Date;
   numberOfGuests: number;
+  initialTableId?: number; // Add this
   onNext: (tableId: number) => void;
   onBack: () => void;
 }
@@ -16,11 +17,15 @@ interface SelectTableProps {
 export const SelectTable: React.FC<SelectTableProps> = ({
   dateTime,
   numberOfGuests,
+  initialTableId, // Destructure it
   onNext,
   onBack,
 }) => {
   const [tables, setTables] = useState<AvailableTableDto[]>([]);
-  const [selectedTable, setSelectedTable] = useState<number | null>(null);
+  // Initialize state with the value from the parent
+  const [selectedTable, setSelectedTable] = useState<number | null>(
+    initialTableId || null,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>("");
 
@@ -38,6 +43,16 @@ export const SelectTable: React.FC<SelectTableProps> = ({
       );
       if (response.data) {
         setTables(response.data);
+
+        // Logic: If we have an initialTableId, ensure it's actually in the
+        // new list of available tables. If not, we might want to reset it.
+        if (
+          initialTableId &&
+          !response.data.find((t) => t.id === initialTableId)
+        ) {
+          setSelectedTable(null);
+        }
+
         if (response.data.length === 0) {
           setError("No tables available for the selected time and party size.");
         }

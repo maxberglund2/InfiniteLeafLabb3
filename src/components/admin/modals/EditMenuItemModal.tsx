@@ -219,7 +219,7 @@ export const EditMenuItemModal: React.FC<EditMenuItemModalProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 px-4 py-3 bg-gradient-to-r from-jade to-emerald
+              className="flex-1 px-4 py-3 bg-linear-to-r from-jade to-emerald
                        hover:from-emerald hover:to-jade text-white rounded-lg
                        transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
