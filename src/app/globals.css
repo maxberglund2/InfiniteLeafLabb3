@@ -167,12 +167,60 @@ html {
   }
 }
 
+/* Logo rotation animation with smooth easing */
+@keyframes logoRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  /* First spin - ease in */
+  25% {
+    transform: rotate(360deg);
+  }
+
+  /* Second spin - maintain smooth motion */
+  50% {
+    transform: rotate(720deg);
+  }
+
+  /* Pause phase with ease out */
+  60% {
+    transform: rotate(720deg);
+  }
+
+  /* Hold the pause */
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
 .animate-slideIn {
   animation: slideIn 0.8s ease-out forwards;
+}
+
+/* Logo rotation class with smooth cubic-bezier easing */
+.animate-logo-spin {
+  animation: logoRotate 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Alternative smoother easing option */
+.animate-logo-spin-smooth {
+  animation: logoRotate 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Extra smooth with elastic feel */
+.animate-logo-spin-elastic {
+  animation: logoRotate 6s cubic-bezier(0.68, -0.15, 0.265, 1.15) infinite;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .sm-scope {
@@ -182,8 +230,4 @@ html {
 .sm-scope .staggered-menu-header,
 .sm-scope .staggered-menu-panel {
   pointer-events: auto;
-}
-
-.bbSw {
-  text-align: center;
 }

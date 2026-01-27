@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import { MenuItemDto } from "@/types/api.types";
 
 interface MenuItemCardProps {
@@ -9,61 +10,54 @@ interface MenuItemCardProps {
 }
 
 export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, index }) => {
+  const [imageError, setImageError] = useState(false);
+  const imageSrc =
+    imageError || !item.imageUrl ? "/fallback.jpg" : item.imageUrl;
+
   return (
     <div
-      className="group relative bg-moss rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105"
+      className="relative bg-moss/40 border border-jade/30 rounded-xl overflow-hidden backdrop-blur-md hover:border-jade/60 transition-colors duration-300"
       style={{
         animationDelay: `${index * 100}ms`,
       }}
     >
-      {/* Image Container */}
-      <div className="relative h-64 overflow-hidden bg-dark-forest">
-        {item.imageUrl ? (
-          <img
-            src={item.imageUrl}
-            alt={item.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-jade to-emerald">
-            <span className="text-6xl opacity-50">🍵</span>
-          </div>
-        )}
+      {/* Image Section */}
+      <div className="relative aspect-[4/3] bg-dark-forest overflow-hidden">
+        <Image
+          src={imageSrc}
+          alt={item.name}
+          fill
+          className="object-cover"
+          onError={() => setImageError(true)}
+        />
 
         {/* Popular Badge */}
         {item.isPopular && (
-          <div className="absolute top-4 right-4 bg-emerald text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-            ⭐ Popular
+          <div className="absolute top-3 right-3 bg-emerald/90 backdrop-blur-sm px-3 py-1 rounded-md text-white text-xs font-semibold">
+            Popular
           </div>
         )}
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-moss via-transparent to-transparent opacity-60" />
       </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-emerald transition-colors">
-          {item.name}
-        </h3>
-
-        <p className="text-gray-300 text-sm mb-4 line-clamp-2">
-          {item.description}
-        </p>
-
-        <div className="flex items-center justify-between">
-          <span className="text-3xl font-bold text-emerald">
+      {/* Content Section */}
+      <div className="p-5">
+        {/* Name & Price Row */}
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <h3 className="text-white text-lg font-semibold leading-tight flex-1">
+            {item.name}
+          </h3>
+          <span className="text-emerald text-xl font-bold whitespace-nowrap">
             ${item.price.toFixed(2)}
           </span>
-
-          <button className="bg-jade hover:bg-emerald text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-md">
-            Order Now
-          </button>
         </div>
-      </div>
 
-      {/* Decorative Border */}
-      <div className="absolute inset-0 border-2 border-jade opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-500 pointer-events-none" />
+        {/* Description */}
+        {item.description && (
+          <p className="text-gray-400 text-sm leading-relaxed">
+            {item.description}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
