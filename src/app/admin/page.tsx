@@ -20,21 +20,13 @@ const AdminPage = () => {
       label: "Reservations",
       icon: <Calendar size={16} />,
     },
-    {
-      id: "tables" as Section,
-      label: "Tables",
-      icon: <ChefHat size={16} />,
-    },
+    { id: "tables" as Section, label: "Tables", icon: <ChefHat size={16} /> },
     {
       id: "customers" as Section,
       label: "Customers",
       icon: <Users size={16} />,
     },
-    {
-      id: "menu" as Section,
-      label: "Menu Items",
-      icon: <Coffee size={16} />,
-    },
+    { id: "menu" as Section, label: "Menu Items", icon: <Coffee size={16} /> },
   ];
 
   const renderTable = () => {
@@ -53,11 +45,12 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-7xl mx-auto space-y-8">
+    /* h-screen + flex-col + overflow-hidden prevents the body from scrolling */
+    <div className="h-screen flex flex-col pt-24 pb-8 px-4 overflow-hidden bg-dark-forest">
+      <div className="max-w-7xl mx-auto w-full flex flex-col flex-1 min-h-0 space-y-6">
         {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-4xl md:text-5xl font-bold text-white">
+        <div className="space-y-2 shrink-0">
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
             Admin Dashboard
           </h1>
           <p className="text-gray-400 text-lg">
@@ -65,45 +58,38 @@ const AdminPage = () => {
           </p>
         </div>
 
-        {/* Category Sections */}
-        <div className="space-y-6">
-          {/* Operations Section */}
-          <div className="space-y-3">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-              Operations
-            </h2>
-            {/* Mobile: native select */}
-            <div className="block md:hidden">
-              <select
-                className="w-full px-4 py-3 bg-dark-forest border border-jade/50 rounded-lg
-                       text-white focus:ring-2 focus:ring-emerald focus:border-transparent
-                       outline-none transition"
-                value={activeSection}
-                onChange={(e) => setActiveSection(e.target.value as Section)}
-              >
-                {operationsSections.map((section) => (
-                  <option key={section.id} value={section.id}>
-                    {section.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {/* Desktop: SegmentedControl */}
-            <div className="hidden md:block">
-              <SegmentedControl
-                options={operationsSections}
-                value={activeSection}
-                onChange={(value) => setActiveSection(value as Section)}
-              />
-            </div>
+        {/* Navigation */}
+        <div className="shrink-0 space-y-3">
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+            Operations
+          </h2>
+          <div className="block md:hidden">
+            <select
+              className="w-full px-4 py-3 bg-moss/50 border border-jade/50 rounded-lg text-white outline-none"
+              value={activeSection}
+              onChange={(e) => setActiveSection(e.target.value as Section)}
+            >
+              {operationsSections.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="hidden md:block">
+            <SegmentedControl
+              options={operationsSections}
+              value={activeSection}
+              onChange={(value) => setActiveSection(value as Section)}
+            />
           </div>
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-linear-to-r from-transparent via-jade/30 to-transparent" />
+        <div className="h-px bg-linear-to-r from-transparent via-jade/30 to-transparent shrink-0" />
 
-        {/* Active Table */}
-        <div className="animate-fadeIn">{renderTable()}</div>
+        {/* Table Container */}
+        <div className="flex-1 min-h-0 animate-fadeIn">{renderTable()}</div>
       </div>
     </div>
   );

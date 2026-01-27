@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { X, User, Phone } from "lucide-react";
 import { CustomerDto } from "@/types/api.types";
 import { customerService } from "@/services/customer.service";
 import { toast } from "react-toastify";
@@ -19,11 +20,18 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     name: customer.name,
     phoneNumber: customer.phoneNumber,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Prevent SSR issues with Portal
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -31,7 +39,13 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
         name: customer.name,
         phoneNumber: customer.phoneNumber,
       });
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
     }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isOpen, customer]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,15 +69,15 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-9999 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="bg-moss border border-jade/30 rounded-2xl shadow-2xl w-full max-w-lg"
+        className="bg-moss border border-jade/30 rounded-2xl shadow-2xl w-full max-w-md animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -78,25 +92,31 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Full Name *
             </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              required
-              maxLength={100}
-              className="w-full px-4 py-3 bg-dark-forest border border-jade/50 rounded-lg
-                       text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald
-                       focus:border-transparent outline-none transition"
-              placeholder="Enter customer name"
-            />
+            <div className="relative">
+              <User
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+              />
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                required
+                maxLength={100}
+                className="w-full pl-11 pr-4 py-3 bg-dark-forest border border-jade/50 rounded-lg
+                         text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald
+                         focus:border-transparent outline-none transition"
+                placeholder="Enter customer name"
+              />
+            </div>
           </div>
 
           {/* Phone Number */}
@@ -104,33 +124,39 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Phone Number *
             </label>
-            <input
-              type="tel"
-              value={formData.phoneNumber}
-              onChange={(e) =>
-                setFormData({ ...formData, phoneNumber: e.target.value })
-              }
-              required
-              maxLength={20}
-              className="w-full px-4 py-3 bg-dark-forest border border-jade/50 rounded-lg
-                       text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald
-                       focus:border-transparent outline-none transition"
-              placeholder="Enter phone number"
-            />
+            <div className="relative">
+              <Phone
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+              />
+              <input
+                type="tel"
+                value={formData.phoneNumber}
+                onChange={(e) =>
+                  setFormData({ ...formData, phoneNumber: e.target.value })
+                }
+                required
+                maxLength={20}
+                className="w-full pl-11 pr-4 py-3 bg-dark-forest border border-jade/50 rounded-lg
+                         text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald
+                         focus:border-transparent outline-none transition"
+                placeholder="Enter phone number"
+              />
+            </div>
           </div>
 
-          {/* Customer ID (Read-only) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Customer ID
-            </label>
-            <div className="px-4 py-3 bg-dark-forest/50 border border-jade/30 rounded-lg text-gray-400 font-mono">
-              #{customer.id}
+          {/* Info Section (Read-only) */}
+          <div className="p-4 bg-dark-forest/50 border border-jade/20 rounded-xl">
+            <div className="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-1">
+              Internal Reference
+            </div>
+            <div className="text-sm text-emerald font-mono">
+              ID: {customer.id}
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
@@ -145,7 +171,7 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
               disabled={isSubmitting}
               className="flex-1 px-4 py-3 bg-linear-to-r from-jade to-emerald
                        hover:from-emerald hover:to-jade text-white rounded-lg
-                       transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                       transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald/20"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">
@@ -159,6 +185,7 @@ export const EditCustomerModal: React.FC<EditCustomerModalProps> = ({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

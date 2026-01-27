@@ -25,7 +25,6 @@ export const MenuItemsTable: React.FC = () => {
   useEffect(() => {
     fetchMenuItems();
   }, []);
-
   useEffect(() => {
     filterAndSort();
   }, [menuItems, searchQuery, sortConfig]);
@@ -34,9 +33,7 @@ export const MenuItemsTable: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await menuService.getAll();
-      if (response.data) {
-        setMenuItems(response.data);
-      }
+      if (response.data) setMenuItems(response.data);
     } catch (error) {
       toast.error("Failed to load menu items");
     } finally {
@@ -46,8 +43,6 @@ export const MenuItemsTable: React.FC = () => {
 
   const filterAndSort = () => {
     let filtered = [...menuItems];
-
-    // Search
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -56,25 +51,18 @@ export const MenuItemsTable: React.FC = () => {
           item.description.toLowerCase().includes(query),
       );
     }
-
-    // Sort
     if (sortConfig.key && sortConfig.direction) {
       filtered.sort((a, b) => {
         const aVal = (a as any)[sortConfig.key];
         const bVal = (b as any)[sortConfig.key];
-
         if (typeof aVal === "string") {
           return sortConfig.direction === "asc"
             ? aVal.localeCompare(bVal)
             : bVal.localeCompare(aVal);
         }
-
-        if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
-        if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
-        return 0;
+        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
       });
     }
-
     setFilteredData(filtered);
   };
 
@@ -93,14 +81,13 @@ export const MenuItemsTable: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this menu item?")) return;
-
+    if (!confirm("Are you sure?")) return;
     try {
       await menuService.delete(id);
-      toast.success("Menu item deleted");
+      toast.success("Item deleted");
       fetchMenuItems();
-    } catch (error) {
-      toast.error("Failed to delete menu item");
+    } catch {
+      toast.error("Delete failed");
     }
   };
 
@@ -110,43 +97,40 @@ export const MenuItemsTable: React.FC = () => {
         ...item,
         isPopular: !item.isPopular,
       });
-      toast.success(
-        item.isPopular
-          ? "Removed from popular items"
-          : "Added to popular items",
-      );
       fetchMenuItems();
-    } catch (error) {
-      toast.error("Failed to update menu item");
+    } catch {
+      toast.error("Update failed");
     }
   };
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center h-full">
         <div className="w-8 h-8 border-4 border-jade border-t-emerald rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-start justify-start md:items-center sm:justify-between flex-col sm:flex-row">
+    <div className="flex flex-col h-full space-y-4">
+      {/* Search Bar Area */}
+      <div className="flex shrink-0 items-start justify-start md:items-center sm:justify-between flex-col sm:flex-row gap-4">
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder="Search menu items..."
         />
-        <div className="text-sm text-gray-400">
-          {filteredData.length} item{filteredData.length !== 1 ? "s" : ""}
+        <div className="text-sm text-gray-400 font-mono">
+          {filteredData.length} items total
         </div>
       </div>
 
-      <div className="bg-moss/30 border border-jade/20 rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-dark-forest/50 border-b border-jade/20">
-              <tr>
+      {/* Table Area */}
+      <div className="flex-1 min-h-0 bg-moss/20 border border-jade/20 rounded-xl flex flex-col overflow-hidden shadow-inner">
+        <div className="overflow-auto relative">
+          <table className="w-full border-separate border-spacing-0">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-dark-forest shadow-sm">
                 <TableHeader
                   label="Item"
                   sortKey="name"
@@ -170,7 +154,7 @@ export const MenuItemsTable: React.FC = () => {
                 <tr>
                   <td
                     colSpan={5}
-                    className="px-4 py-8 text-center text-gray-500"
+                    className="px-4 py-20 text-center text-gray-500"
                   >
                     No menu items found
                   </td>
@@ -179,43 +163,33 @@ export const MenuItemsTable: React.FC = () => {
                 filteredData.map((item) => (
                   <tr
                     key={item.id}
-                    className="hover:bg-moss/20 transition-colors"
+                    className="hover:bg-jade/5 transition-colors group"
                   >
-                    <td className="px-4 py-3 text-sm">
+                    <td className="px-4 py-4 text-sm whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="text-2xl">🍃</div>
+                        <span className="text-xl group-hover:scale-110 transition-transform">
+                          🍃
+                        </span>
                         <div>
                           <div className="text-white font-medium">
                             {item.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-[10px] text-gray-500 font-mono uppercase">
                             ID: {item.id}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-400 max-w-xs truncate">
+                    <td className="px-4 py-4 text-sm text-gray-400 max-w-xs truncate">
                       {item.description}
                     </td>
-                    <td className="px-4 py-3 text-sm text-right">
-                      <div className="flex items-center justify-end gap-1 text-emerald font-semibold">
-                        <DollarSign size={14} />
-                        {item.price.toFixed(2)}
-                      </div>
+                    <td className="px-4 py-4 text-sm text-right font-semibold text-emerald">
+                      ¥{item.price.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-sm text-center">
+                    <td className="px-4 py-4 text-sm text-center">
                       <button
                         onClick={() => togglePopular(item)}
-                        className={`p-2 rounded-lg transition-colors ${
-                          item.isPopular
-                            ? "text-yellow-400 bg-yellow-400/10 hover:bg-yellow-400/20"
-                            : "text-gray-500 hover:text-yellow-400 hover:bg-yellow-400/10"
-                        }`}
-                        title={
-                          item.isPopular
-                            ? "Remove from popular"
-                            : "Mark as popular"
-                        }
+                        className={`p-2 rounded-lg ${item.isPopular ? "text-yellow-400 bg-yellow-400/5" : "text-gray-600 hover:text-yellow-200"}`}
                       >
                         <Star
                           size={16}
@@ -223,19 +197,17 @@ export const MenuItemsTable: React.FC = () => {
                         />
                       </button>
                     </td>
-                    <td className="px-4 py-3 text-sm text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-4 py-4 text-sm text-right">
+                      <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => setEditingMenuItem(item)}
-                          className="p-2 text-gray-400 hover:text-emerald hover:bg-jade/10 rounded-lg transition-colors"
-                          title="Edit"
+                          className="p-2 text-gray-400 hover:text-emerald hover:bg-emerald/10 rounded-lg transition-colors"
                         >
                           <Pencil size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/10 rounded-lg transition-colors"
-                          title="Delete"
+                          className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -249,7 +221,6 @@ export const MenuItemsTable: React.FC = () => {
         </div>
       </div>
 
-      {/* Edit Modal */}
       {editingMenuItem && (
         <EditMenuItemModal
           menuItem={editingMenuItem}

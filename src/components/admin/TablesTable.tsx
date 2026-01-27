@@ -45,7 +45,6 @@ export const TablesTable: React.FC = () => {
   const filterAndSort = () => {
     let filtered = [...tables];
 
-    // Search
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -55,7 +54,6 @@ export const TablesTable: React.FC = () => {
       );
     }
 
-    // Sort
     if (sortConfig.key && sortConfig.direction) {
       filtered.sort((a, b) => {
         const aVal = (a as any)[sortConfig.key];
@@ -98,30 +96,32 @@ export const TablesTable: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center h-full">
         <div className="w-8 h-8 border-4 border-jade border-t-emerald rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-start justify-start md:items-center sm:justify-between flex-col sm:flex-row">
+    <div className="flex flex-col h-full space-y-4">
+      {/* Top Bar */}
+      <div className="flex shrink-0 items-start justify-start md:items-center sm:justify-between flex-col sm:flex-row gap-4">
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder="Search by table number or capacity..."
         />
-        <div className="text-sm text-gray-400">
-          {filteredData.length} table{filteredData.length !== 1 ? "s" : ""}
+        <div className="text-sm text-gray-400 font-mono">
+          {filteredData.length} active units
         </div>
       </div>
 
-      <div className="bg-moss/30 border border-jade/20 rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-dark-forest/50 border-b border-jade/20">
-              <tr>
+      {/* Table Area */}
+      <div className="flex-1 min-h-0 bg-moss/20 border border-jade/20 rounded-xl flex flex-col overflow-hidden shadow-inner">
+        <div className="overflow-auto relative h-full custom-scrollbar">
+          <table className="w-full border-separate border-spacing-0">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-dark-forest shadow-sm">
                 <TableHeader
                   label="Table Number"
                   sortKey="tableNumber"
@@ -142,8 +142,8 @@ export const TablesTable: React.FC = () => {
               {filteredData.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={4}
-                    className="px-4 py-8 text-center text-gray-500"
+                    colSpan={3}
+                    className="px-4 py-20 text-center text-gray-500"
                   >
                     No tables found
                   </td>
@@ -152,38 +152,38 @@ export const TablesTable: React.FC = () => {
                 filteredData.map((table) => (
                   <tr
                     key={table.id}
-                    className="hover:bg-moss/20 transition-colors"
+                    className="hover:bg-jade/5 transition-colors group"
                   >
-                    <td className="px-4 py-3 text-sm">
+                    <td className="px-4 py-4 text-sm whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-jade/20 flex items-center justify-center text-emerald font-bold">
+                        <div className="w-10 h-10 rounded-lg bg-jade/10 flex items-center justify-center text-emerald font-bold border border-jade/20 group-hover:bg-jade/20 transition-all">
                           {table.tableNumber}
                         </div>
-                        <span className="text-white font-medium">
+                        <span className="text-white font-medium group-hover:text-emerald transition-colors">
                           Table {table.tableNumber}
                         </span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-center">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-moss rounded-full">
+                    <td className="px-4 py-4 text-sm text-center">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-moss border border-jade/10 rounded-full group-hover:border-emerald/30 transition-colors">
                         <Users size={14} className="text-emerald" />
                         <span className="text-white font-medium">
-                          {table.capacity}
+                          {table.capacity} Seats
                         </span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-4 py-4 text-sm text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => setEditingTable(table)}
-                          className="p-2 text-gray-400 hover:text-emerald hover:bg-jade/10 rounded-lg transition-colors"
+                          className="p-2 text-gray-400 hover:text-emerald hover:bg-emerald/10 rounded-lg transition-colors"
                           title="Edit"
                         >
                           <Pencil size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(table.id)}
-                          className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/10 rounded-lg transition-colors"
+                          className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
                           title="Delete"
                         >
                           <Trash2 size={16} />
