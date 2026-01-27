@@ -72,16 +72,35 @@ const AdminPage = () => {
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
               Operations
             </h2>
-            <SegmentedControl
-              options={operationsSections}
-              value={activeSection}
-              onChange={(value) => setActiveSection(value as Section)}
-            />
+            {/* Mobile: native select */}
+            <div className="block md:hidden">
+              <select
+                className="w-full px-4 py-3 bg-dark-forest border border-jade/50 rounded-lg
+                       text-white focus:ring-2 focus:ring-emerald focus:border-transparent
+                       outline-none transition"
+                value={activeSection}
+                onChange={(e) => setActiveSection(e.target.value as Section)}
+              >
+                {operationsSections.map((section) => (
+                  <option key={section.id} value={section.id}>
+                    {section.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {/* Desktop: SegmentedControl */}
+            <div className="hidden md:block">
+              <SegmentedControl
+                options={operationsSections}
+                value={activeSection}
+                onChange={(value) => setActiveSection(value as Section)}
+              />
+            </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-jade/30 to-transparent" />
+        <div className="h-px bg-linear-to-r from-transparent via-jade/30 to-transparent" />
 
         {/* Active Table */}
         <div className="animate-fadeIn">{renderTable()}</div>

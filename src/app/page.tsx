@@ -163,7 +163,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stats.map((stat, idx) => (
               <AnimatedContent key={idx} delay={idx * 0.1} distance={20}>
                 <div className="p-8 border border-jade bg-moss hover:bg-jade transition-colors duration-300 flex flex-col items-center justify-center text-center h-full group">

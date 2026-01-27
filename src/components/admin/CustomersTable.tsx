@@ -113,7 +113,7 @@ export const CustomersTable: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-start md:items-center sm:justify-between flex-col sm:flex-row">
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
