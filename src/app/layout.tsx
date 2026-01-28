@@ -65,6 +65,7 @@ export default function RootLayout({
           theme="dark"
           toastClassName=""
           progressClassName="!bg-emerald"
+          style={{ zIndex: 99999 }}
         />
 
         {/* App */}
