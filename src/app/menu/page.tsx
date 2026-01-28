@@ -28,9 +28,6 @@ export default function MenuPage() {
     fetchMenuItems();
   }, []);
 
-  useEffect(() => {
-    filterItems();
-  }, [activeFilter, searchQuery, menuItems]);
 
   const fetchMenuItems = async () => {
     try {
@@ -63,6 +60,10 @@ export default function MenuPage() {
 
     setFilteredItems(filtered);
   };
+
+  useEffect(() => {
+    filterItems();
+  }, [activeFilter, searchQuery, menuItems]);
 
   const getFilterStats = (): FilterStats => {
     return {

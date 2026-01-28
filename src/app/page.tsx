@@ -64,7 +64,10 @@ export default function Home() {
               Reserve a Table
             </Link>
 
-            <Link href="/menu" className="border-2 box-border border-emerald text-white hover:bg-emerald px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+            <Link
+              href="/menu"
+              className="border-2 box-border border-emerald text-white hover:bg-emerald px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105"
+            >
               View Tea Menu
             </Link>
           </div>
@@ -157,9 +160,9 @@ export default function Home() {
               More Than Just Tea
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              We're a community of tea lovers, explorers, and friends who
+              We&apos;re a community of tea lovers, explorers, and friends who
               celebrate the art and culture of Asian tea. When you share a cup
-              at Infinite Leaf, you're part of something special.
+              at Infinite Leaf, you&apos;re part of something special.
             </p>
           </div>
 

@@ -69,8 +69,8 @@ export const SelectDate: React.FC<SelectDateProps> = ({
   }, [selectedDate, hourInput, minInput, minSelectableTime]);
 
   const adjustTime = (mins: number) => {
-    let h = parseInt(hourInput) || 0;
-    let m = parseInt(minInput) || 0;
+    const h = parseInt(hourInput) || 0;
+    const m = parseInt(minInput) || 0;
     let total = h * 60 + m + mins;
     total = Math.max(MIN_HOUR * 60, Math.min(MAX_HOUR * 60, total));
 

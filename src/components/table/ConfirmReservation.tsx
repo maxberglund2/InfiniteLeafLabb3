@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../shared/Button";
 import { format } from "date-fns";
 
@@ -79,7 +79,7 @@ export const ConfirmReservation: React.FC<ConfirmReservationProps> = ({
               <li>• Please arrive 10 minutes before your reservation</li>
               <li>• Your table will be held for 15 minutes</li>
               <li>• Reservations are for 2 hours</li>
-              <li>• We'll send a confirmation to your phone</li>
+              <li>• We&apos;ll send a confirmation to your phone</li>
             </ul>
           </div>
         </div>

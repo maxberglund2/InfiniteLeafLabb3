@@ -80,14 +80,14 @@ export const ReservationSuccess: React.FC<ReservationSuccessProps> = ({
         <div className="bg-black/30 rounded-xl p-4 md:p-5 text-left border border-jade/10">
           <h3 className="text-white text-sm font-bold mb-4 flex items-center gap-2">
             <div className="w-1 h-4 bg-jade rounded-full" />
-            WHAT'S NEXT?
+            WHAT&apos;S NEXT?
           </h3>
           <ul className="text-sm text-gray-300 space-y-4">
             <li className="flex items-start gap-3">
               <div className="bg-jade/20 p-1.5 rounded-lg">
                 <Phone size={14} className="text-emerald" />
               </div>
-              <span>You'll receive a confirmation SMS shortly.</span>
+              <span>You&apos;ll receive a confirmation SMS shortly.</span>
             </li>
             <li className="flex items-start gap-3">
               <div className="bg-jade/20 p-1.5 rounded-lg">

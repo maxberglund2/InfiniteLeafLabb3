@@ -38,7 +38,7 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-white mb-2">Your Information</h2>
         <p className="text-gray-400">
-          We'll use this to confirm your reservation
+          We&apos;ll use this to confirm your reservation
         </p>
       </div>
 
@@ -83,7 +83,7 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
 
         <div className="bg-moss/50 border border-jade/30 rounded-lg p-4 text-sm text-gray-400">
           <p className="mb-2">
-            <strong className="text-white">Note:</strong> We'll send a
+            <strong className="text-white">Note:</strong> We&apos;ll send a
             confirmation to this number.
           </p>
           <p>Please arrive 10 minutes before your reservation time.</p>

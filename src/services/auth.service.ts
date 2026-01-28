@@ -1,4 +1,3 @@
-// services/auth.service.ts
 import { apiClient, ApiResponse, UserFromToken } from '@/lib/api-client';
 import { LoginRequestDto, LoginResponseDto } from '@/types/api.types';
 
@@ -22,8 +21,6 @@ function decodeJwtClaims(token: string): Record<string, any> {
 function extractUserFromToken(token: string): UserFromToken {
     const claims = decodeJwtClaims(token);
     
-    // Extract username from .NET JWT claims
-    // ClaimTypes.Name is mapped to this URI
     const username = claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || '';
 
     return {

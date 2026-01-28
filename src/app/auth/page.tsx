@@ -37,8 +37,14 @@ export default function SignInPage() {
         });
       }
     } catch (err) {
+      let errorMessage = "An unexpected error occurred";
+      if (err instanceof Error && err.message) {
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err;
+      }
       toast.update(loadingToast, {
-        render: "An unexpected error occurred",
+        render: errorMessage,
         type: "error",
         isLoading: false,
         autoClose: 3000,
