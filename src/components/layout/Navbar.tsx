@@ -3,8 +3,9 @@
 import React, { useCallback, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import StaggeredMenu from "@/components/ui/StaggeredMenu";
+import { useAuth } from "@/contexts/AuthContext";
 
-const menuItems = [
+const baseMenuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
   { label: "Menu", ariaLabel: "View our menu", link: "/menu" },
   { label: "Table", ariaLabel: "Make a reservation", link: "/table" },
@@ -20,6 +21,7 @@ const socialItems = [
 export const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const overlayHandlerRef = useRef<(() => void) | null>(null);
+  const { logout, isAuthenticated } = useAuth();
 
   // Function to toggle the blur overlay
   const toggleBlurOverlay = (open: boolean) => {
@@ -75,6 +77,20 @@ export const Navbar: React.FC = () => {
       handleMenuOpen();
     }
   }, [menuOpen, handleMenuClose, handleMenuOpen]);
+
+  const menuItems = isAuthenticated
+    ? [
+        ...baseMenuItems,
+        {
+          label: "Logout",
+          ariaLabel: "Log out of your account",
+          onClick: async () => {
+            await logout();
+            handleMenuClose();
+          },
+        },
+      ]
+    : baseMenuItems;
 
   // Configuration for the Menu Button styles
   const menuButtonColor = "#D4D4D4";

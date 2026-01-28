@@ -1,11 +1,12 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
 
 export interface StaggeredMenuItem {
   label: string;
   ariaLabel: string;
-  link: string;
+  link?: string;
+  onClick?: () => void | Promise<void>;
 }
 export interface StaggeredMenuSocialItem {
   label: string;
@@ -228,7 +229,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     } else {
       busyRef.current = false;
     }
-    onMenuOpen?.(); // Call external handler
+    onMenuOpen?.();
   }, [buildOpenTimeline, onMenuOpen]);
 
   const playClose = useCallback(() => {
@@ -274,16 +275,15 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
         busyRef.current = false;
-        onMenuClose?.(); // Call external handler
+        onMenuClose?.();
       },
     });
   }, [position, onMenuClose]);
 
-  // Removed animateIcon, animateColor, animateText, and toggleMenu
 
   // --- Primary Control Hook ---
   React.useEffect(() => {
-    openRef.current = open; // Keep ref updated
+    openRef.current = open;
 
     if (open) {
       playOpen();
@@ -369,8 +369,6 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           })()}
         </div>
 
-        {/* REMOVED: <header> and the Menu Toggle button. This is now handled in Navbar.tsx */}
-
         <aside
           id="staggered-menu-panel"
           ref={panelRef}
@@ -395,17 +393,32 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                     className="sm-panel-itemWrap relative overflow-hidden leading-none"
                     key={it.label + idx}
                   >
-                    <a
-                      className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
-                      href={it.link}
-                      aria-label={it.ariaLabel}
-                      data-index={idx + 1}
-                      onClick={onToggle}
-                    >
-                      <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
-                        {it.label}
-                      </span>
-                    </a>
+                    {it.onClick ? (
+                      <button
+                        type="button"
+                        className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em] bg-transparent border-none text-left"
+                        aria-label={it.ariaLabel}
+                        data-index={idx + 1}
+                        onClick={it.onClick}
+                      >
+                        <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
+                          {it.label}
+                        </span>
+                      </button>
+                    ) : (
+                      <Link
+                        className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
+                        href={it.link || "#"}
+                        aria-label={it.ariaLabel}
+                        data-index={idx + 1}
+                        onClick={onToggle}
+                        prefetch={false}
+                      >
+                        <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
+                          {it.label}
+                        </span>
+                      </Link>
+                    )}
                   </li>
                 ))
               ) : (
